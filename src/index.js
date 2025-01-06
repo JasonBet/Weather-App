@@ -21,6 +21,18 @@ form.appendChild(locationInput);
 form.appendChild(submitButton);
 document.body.appendChild(form);
 
+const toggleTemp = document.createElement("button");
+toggleTemp.textContent = "Celsius";
+document.body.appendChild(toggleTemp);
+
+toggleTemp.addEventListener("click", () => {
+    if(toggleTemp.textContent === "Celsius"){
+        toggleTemp.textContent = "Fahrenheit";
+    } else {toggleTemp.textContent = "Celsius"};
+    const submitFormEvent = new Event("submit", {bubbles: true, cancelable: true});
+    form.dispatchEvent(submitFormEvent);
+});
+
 const displayDiv = document.createElement("div");
 document.body.appendChild(displayDiv);
 
@@ -31,7 +43,8 @@ form.addEventListener("submit", async (event) => {
     const searchLocation = formData.get("location");
     let weather = await getWeather(searchLocation);
     let userData = filterWeatherData(weather);
-    console.log(userData); 
-    displayWeatherData(userData);
+    const isFahrenheit = toggleTemp.textContent === "Fahrenheit" ? true : false;
+    console.log(isFahrenheit);
+    displayWeatherData(userData, isFahrenheit);
 });
 
