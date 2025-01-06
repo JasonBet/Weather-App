@@ -1,5 +1,7 @@
 import "./styles.css";
 import { getWeather } from "./getWeather.js";
+import { filterWeatherData } from "./filterWeatherData.js";
 
 let weather = await getWeather("los angeles");
-console.log(weather);
+let userData = filterWeatherData(weather);
+console.log(userData);
