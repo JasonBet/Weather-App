@@ -1,4 +1,5 @@
 import "./styles.css";
-import { greeting } from "./greeting.js";
+import { getWeather } from "./getWeather.js";
 
-console.log(greeting);
+let weather = await getWeather("los angeles");
+console.log(weather);
