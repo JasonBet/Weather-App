@@ -2,6 +2,7 @@ import "./styles.css";
 import { getWeather } from "./getWeather.js";
 import { filterWeatherData } from "./filterWeatherData.js";
 import { displayWeatherData } from "./displayWeatherData.js";
+import { displayGif } from "./displayGif.js";
 
 const form = document.createElement("form");
 form.noValidate = true;
@@ -34,7 +35,12 @@ toggleTemp.addEventListener("click", () => {
 });
 
 const displayDiv = document.createElement("div");
+displayDiv.classList.add("display-temp-div");
+const displayGifDiv = document.createElement("div");
+displayGifDiv.classList.add("display-gif-div");
+displayGifDiv.id = "gif-div";
 document.body.appendChild(displayDiv);
+document.body.appendChild(displayGifDiv);
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -44,7 +50,24 @@ form.addEventListener("submit", async (event) => {
     let weather = await getWeather(searchLocation);
     let userData = filterWeatherData(weather);
     const isFahrenheit = toggleTemp.textContent === "Fahrenheit" ? true : false;
-    console.log(isFahrenheit);
+    let phrase = "Weather";
+    if(userData.temp <= -10) {
+        phrase = "Very cold weather";
+    } else if(userData.temp <= 10) {
+        phrase = "Cold weather";
+    } else if(userData.temp <= 15) {
+        phrase = "Cool weather";
+    } else if(userData.temp <= 21) {
+        phrase = "Good weather";
+    } else if(userData.temp <= 26) {
+        phrase = "Warm weather";
+    } else if(userData.temp <= 31.0) {
+        phrase = "Hot weather";
+    } else if(userData.temp > 31.0) {
+        phrase = "Very hot weather";
+    }
+    console.log(phrase);
     displayWeatherData(userData, isFahrenheit);
+    displayGif(phrase);
 });
 
